@@ -50,14 +50,15 @@
   <button onclick="startCall()">Start Call</button>
   <div class="status" id="statusMessage"></div>
 
-  <!-- Load the Pipedrive SDK -->
-  <script src="https://unpkg.com/@pipedrive/app-extensions-sdk"></script>
+  <!-- Correct SDK source (UMD build) -->
+  <script src="https://cdn.pipedriveassets.com/app-extensions-sdk@1.0.0/umd/app-extensions-sdk.min.js"></script>
+
   <script>
     let sdk;
     let userId = null;
     let companyId = null;
 
-    PipedriveAppExtensionsSDK.initialize()
+    window.PipedriveAppExtensionsSDK.initialize()
       .then((_sdk) => {
         sdk = _sdk;
         const context = sdk.context;
@@ -84,10 +85,8 @@
 
       document.getElementById("statusMessage").textContent = `Calling ${phone}...`;
 
-      // Simulated call
       setTimeout(() => {
         document.getElementById("statusMessage").textContent = "Call completed!";
-        // sdk.execute('HIDE_FLOATING_WINDOW'); // optional
       }, 3000);
     }
   </script>
