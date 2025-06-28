@@ -7,6 +7,8 @@
 <script>
   (async () => {
     const sdk = await new AppExtensionsSdk().initialize();
+    console.log("sdk is here ")
+    console.log(sdk)
     console.log("SDK ready, context:", sdk.context);
 
     // Listen for visibility changes when user opens/closes
