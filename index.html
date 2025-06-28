@@ -50,45 +50,6 @@
   <button onclick="startCall()">Start Call</button>
   <div class="status" id="statusMessage"></div>
 
-  <!-- Correct SDK source (UMD build) -->
-  <script src="https://cdn.pipedriveassets.com/app-extensions-sdk@1.0.0/umd/app-extensions-sdk.min.js"></script>
-
-  <script>
-    let sdk;
-    let userId = null;
-    let companyId = null;
-
-    window.PipedriveAppExtensionsSDK.initialize()
-      .then((_sdk) => {
-        sdk = _sdk;
-        const context = sdk.context;
-
-        if (context?.user && context?.company) {
-          userId = context.user.id;
-          companyId = context.company.id;
-          console.log("✅ Pipedrive user:", userId);
-          console.log("✅ Pipedrive company:", companyId);
-        } else {
-          console.warn("⚠️ No user/company context found", context);
-        }
-      })
-      .catch((err) => {
-        console.error("❌ SDK failed to initialize", err);
-      });
-
-    function startCall() {
-      const phone = document.getElementById('phoneNumber').value;
-      if (!phone) {
-        alert("Please enter a phone number");
-        return;
-      }
-
-      document.getElementById("statusMessage").textContent = `Calling ${phone}...`;
-
-      setTimeout(() => {
-        document.getElementById("statusMessage").textContent = "Call completed!";
-      }, 3000);
-    }
-  </script>
+ 
 </body>
 </html>
