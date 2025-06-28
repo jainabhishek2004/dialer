@@ -50,26 +50,30 @@
   <button onclick="startCall()">Start Call</button>
   <div class="status" id="statusMessage"></div>
 
-  <!-- Include SDK directly -->
+  <!-- Load the Pipedrive SDK -->
   <script src="https://unpkg.com/@pipedrive/app-extensions-sdk"></script>
   <script>
     let sdk;
     let userId = null;
     let companyId = null;
 
-    PipedriveAppExtensionsSDK.initialize().then((_sdk) => {
-      sdk = _sdk;
-      const context = sdk.context;
+    PipedriveAppExtensionsSDK.initialize()
+      .then((_sdk) => {
+        sdk = _sdk;
+        const context = sdk.context;
 
-      userId = context.user.id;
-      companyId = context.company.id;
-
-      console.log("Pipedrive user:", userId);
-      console.log("Pipedrive company:", companyId);
-
-      // Optional: set focus mode to prevent user from closing window during call
-      // sdk.execute('SET_FOCUS_MODE', true);
-    });
+        if (context?.user && context?.company) {
+          userId = context.user.id;
+          companyId = context.company.id;
+          console.log("✅ Pipedrive user:", userId);
+          console.log("✅ Pipedrive company:", companyId);
+        } else {
+          console.warn("⚠️ No user/company context found", context);
+        }
+      })
+      .catch((err) => {
+        console.error("❌ SDK failed to initialize", err);
+      });
 
     function startCall() {
       const phone = document.getElementById('phoneNumber').value;
@@ -80,13 +84,12 @@
 
       document.getElementById("statusMessage").textContent = `Calling ${phone}...`;
 
-      // Simulated call — replace this with real call API like Twilio
+      // Simulated call
       setTimeout(() => {
         document.getElementById("statusMessage").textContent = "Call completed!";
-        // sdk.execute('HIDE_FLOATING_WINDOW'); // optional to close the window after call
+        // sdk.execute('HIDE_FLOATING_WINDOW'); // optional
       }, 3000);
     }
   </script>
 </body>
 </html>
-
