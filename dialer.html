@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pipedrive Click-to-Call</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f5f8fa;
+    }
+
+    h2 {
+      color: #013d4d;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 250px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .status {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>Click to Call</h2>
+  <input type="text" id="phoneNumber" placeholder="Enter phone number" />
+  <br />
+  <button onclick="startCall()">Start Call</button>
+  <div class="status" id="statusMessage"></div>
+
+  <!-- Include SDK directly -->
+  <script src="https://unpkg.com/@pipedrive/app-extensions-sdk"></script>
+  <script>
+    let sdk;
+    let userId = null;
+    let companyId = null;
+
+    PipedriveAppExtensionsSDK.initialize().then((_sdk) => {
+      sdk = _sdk;
+      const context = sdk.context;
+
+      userId = context.user.id;
+      companyId = context.company.id;
+
+      console.log("Pipedrive user:", userId);
+      console.log("Pipedrive company:", companyId);
+
+      // Optional: set focus mode to prevent user from closing window during call
+      // sdk.execute('SET_FOCUS_MODE', true);
+    });
+
+    function startCall() {
+      const phone = document.getElementById('phoneNumber').value;
+      if (!phone) {
+        alert("Please enter a phone number");
+        return;
+      }
+
+      document.getElementById("statusMessage").textContent = `Calling ${phone}...`;
+
+      // Simulated call — replace this with real call API like Twilio
+      setTimeout(() => {
+        document.getElementById("statusMessage").textContent = "Call completed!";
+        // sdk.execute('HIDE_FLOATING_WINDOW'); // optional to close the window after call
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
+
