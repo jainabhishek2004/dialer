@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"><title>Dialer</title></head>
-<body><h1>Click to Call Dialer</h1></body>
+<head>
+  <meta charset="utf-8">
+  <title>Dialer</title>
+</head>
+<body>
+  <h1>Click to Call Dialer</h1>
+</body>
 
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0.2.0-rc.0/dist/index.umd.js"></script>
 <script>
   (async () => {
     const sdk = await new AppExtensionsSdk().initialize();
-    console.log("sdk is here ")
-    console.log(sdk)
-    console.log("SDK ready, context:", sdk.context);
+    console.log("✅ SDK initialized:", sdk);
 
-    // Listen for visibility changes when user opens/closes
-    sdk.events.on('VISIBILITY', ({ visible, context }) => {
-      console.log(visible ? 'Window shown' : 'Window hidden', context);
-      if (visible && context.phone) {
-        // autofill phone, etc.
+    sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
+      console.log("👁️ Floating window visibility event:", event);
+
+      const context = event?.data?.context;
+
+      if (context?.person) {
+        console.log("📞 Person contact:", context.person);
+        // You can now access context.person.id, .name, .phone etc.
+      } else {
+        console.warn("⚠️ No person context available");
       }
     });
   })();
