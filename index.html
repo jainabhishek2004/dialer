@@ -10,6 +10,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0.2.0-rc.0/dist/index.umd.js"></script>
 <script>
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const iframeURL = window.location.href;
+  const token = urlParams.get('token');
+  const userId = urlParams.get('userId');
+  const companyId = urlParams.get('companyId');
+  const id = urlParams.get('id');
+
+  console.log("🌐 Iframe URL:", iframeURL);
+  console.log("🔐 Token:", token);
+  console.log("👤 User ID:", userId);
+  console.log("🏢 Company ID:", companyId);
+  console.log("🆔 Surface ID:", id);
   (async () => {
     const sdk = await new AppExtensionsSdk().initialize();
     console.log("✅ SDK initialized:", sdk);
