@@ -6,6 +6,7 @@
 </head>
 <body>
   <h1>Click to Call Dialer</h1>
+  <h1 id="callStatus">Calling to ...</h1>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0.2.0-rc.0/dist/index.umd.js"></script>
@@ -33,34 +34,20 @@
       const callToNumber = context?.callToNumber;
       const personId = event?.data?.relatedIds?.personId;
 
-      // ✅ Only log and act if callToNumber is present
-      if (callToNumber) {
+      if (callToNumber && personId) {
         console.log("📲 Call to number:", callToNumber);
+        console.log("👤 Person ID:", personId);
 
-        if (personId) {
-          console.log("👤 Person ID:", personId);
-        }
+        // 👉 Update the UI with both number and personId
+        const callStatusEl = document.getElementById("callStatus");
+        callStatusEl.textContent = `Calling to ${callToNumber} (Person ID: ${personId})`;
 
         if (context?.person) {
           console.log("📞 Person context:", context.person);
         }
-
-        // 👉 Place your logic here to log activity, send to backend, etc.
-      }
-    });
-
-    // Optional: catch unexpected messages (useful for debugging)
-    window.addEventListener("message", (e) => {
-      const callTo = e?.data?.data?.context?.callToNumber;
-      const personId = e?.data?.data?.relatedIds?.personId;
-
-      if (callTo) {
-        console.log("📨 [Message] Number clicked:", callTo);
-      }
-      if (personId) {
-        console.log("📨 [Message] Person ID:", personId);
       }
     });
   })();
 </script>
 </html>
+
