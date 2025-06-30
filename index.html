@@ -26,43 +26,41 @@
 
   (async () => {
     const sdk = await new AppExtensionsSdk().initialize();
-    console.log("✅ SDK initialized:", sdk);
+    console.log("✅ SDK initialized");
 
-    // 1️⃣ Floating window visibility
     sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
-      console.log("👁️ Floating window visibility event:", event);
-
       const context = event?.data?.context;
-      console.log("🧠 Context:", context);
+      const callToNumber = context?.callToNumber;
+      const personId = event?.data?.relatedIds?.personId;
 
-      if (context?.person) {
-        console.log("📞 Person context:", context.person);
-      }
+      // ✅ Only log and act if callToNumber is present
+      if (callToNumber) {
+        console.log("📲 Call to number:", callToNumber);
 
-      if (event?.data?.relatedIds?.personId) {
-        console.log("🆔 Person ID:", event.data.relatedIds.personId);
-      }
+        if (personId) {
+          console.log("👤 Person ID:", personId);
+        }
 
-      if (context?.callToNumber) {
-        console.log("📲 Call to number:", context.callToNumber);
-        // You could send this data to your backend here
+        if (context?.person) {
+          console.log("📞 Person context:", context.person);
+        }
+
+        // 👉 Place your logic here to log activity, send to backend, etc.
       }
     });
 
-    // 2️⃣ Catch all incoming messages (in case other events send useful info)
+    // Optional: catch unexpected messages (useful for debugging)
     window.addEventListener("message", (e) => {
-      console.log("📨 Message from Pipedrive:", e.data);
-
       const callTo = e?.data?.data?.context?.callToNumber;
       const personId = e?.data?.data?.relatedIds?.personId;
 
       if (callTo) {
-        console.log("📲 Number clicked:", callTo);
+        console.log("📨 [Message] Number clicked:", callTo);
       }
-
       if (personId) {
-        console.log("👤 Related person ID:", personId);
+        console.log("📨 [Message] Person ID:", personId);
       }
     });
   })();
 </script>
+</html>
