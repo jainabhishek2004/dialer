@@ -6,7 +6,7 @@
 </head>
 <body>
   <h1>Click to Call Dialer</h1>
-  <h1 id="callStatus">Calling to ...</h1>
+  <h1 id="callStatus">Calling to ...</h1> <!-- Add an ID here -->
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0.2.0-rc.0/dist/index.umd.js"></script>
@@ -34,13 +34,16 @@
       const callToNumber = context?.callToNumber;
       const personId = event?.data?.relatedIds?.personId;
 
-      if (callToNumber && personId) {
+      if (callToNumber) {
         console.log("📲 Call to number:", callToNumber);
-        console.log("👤 Person ID:", personId);
 
-        // 👉 Update the UI with both number and personId
+        // 👉 Update the DOM with the number
         const callStatusEl = document.getElementById("callStatus");
-        callStatusEl.textContent = `Calling to ${callToNumber} (Person ID: ${personId})`;
+        callStatusEl.textContent = `Calling to ${callToNumber}`;
+
+        if (personId) {
+          console.log("👤 Person ID:", personId);
+        }
 
         if (context?.person) {
           console.log("📞 Person context:", context.person);
@@ -50,4 +53,5 @@
   })();
 </script>
 </html>
+
 
