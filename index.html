@@ -33,6 +33,9 @@
       const context = event?.data?.context;
       const callToNumber = context?.callToNumber;
       const personId = event?.data?.relatedIds?.personId;
+      if(context){
+        console.log(context)
+      }
 
       if (callToNumber) {
         console.log("📲 Call to number:", callToNumber);
