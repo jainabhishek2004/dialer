@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Dialer</title>
-</head>
-<body>
-  <h1>Click to Call Dialer</h1>
-</body>
-
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0.2.0-rc.0/dist/index.umd.js"></script>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
@@ -23,23 +13,46 @@
   console.log("👤 User ID:", userId);
   console.log("🏢 Company ID:", companyId);
   console.log("🆔 Surface ID:", id);
+
   (async () => {
     const sdk = await new AppExtensionsSdk().initialize();
     console.log("✅ SDK initialized:", sdk);
 
+    // 1️⃣ Floating window visibility
     sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
       console.log("👁️ Floating window visibility event:", event);
 
       const context = event?.data?.context;
-      console.log("yeh le context",context)
+      console.log("🧠 Context:", context);
 
       if (context?.person) {
-        console.log("📞 Person contact:", context.person);
-        // You can now access context.person.id, .name, .phone etc.
-      } else {
-        console.warn("⚠️ No person context available");
+        console.log("📞 Person context:", context.person);
+      }
+
+      if (event?.data?.relatedIds?.personId) {
+        console.log("🆔 Person ID:", event.data.relatedIds.personId);
+      }
+
+      if (context?.callToNumber) {
+        console.log("📲 Call to number:", context.callToNumber);
+        // You could send this data to your backend here
+      }
+    });
+
+    // 2️⃣ Catch all incoming messages (in case other events send useful info)
+    window.addEventListener("message", (e) => {
+      console.log("📨 Message from Pipedrive:", e.data);
+
+      const callTo = e?.data?.data?.context?.callToNumber;
+      const personId = e?.data?.data?.relatedIds?.personId;
+
+      if (callTo) {
+        console.log("📲 Number clicked:", callTo);
+      }
+
+      if (personId) {
+        console.log("👤 Related person ID:", personId);
       }
     });
   })();
 </script>
-</html>
