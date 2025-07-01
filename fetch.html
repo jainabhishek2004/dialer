@@ -33,6 +33,21 @@
   console.log("👤 User ID:", userId);
   console.log("🏢 Company ID:", companyId);
   console.log("🆔 Surface ID:", id);
+  function fetchCallLogs() {
+    fetch('http://localhost:3001/fetch-logs')
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.text(); // or .json() if your backend returns JSON
+      })
+      .then(data => {
+        console.log("📥 Response from /fetch-logs:", data);
+        alert("✅ Fetched Logs: " + data);
+      })
+      .catch(error => {
+        console.error("❌ Error fetching call logs:", error);
+        alert("⚠️ Failed to fetch logs from backend.");
+      });
+  }
 
   (async () => {
     const sdk = await new AppExtensionsSdk().initialize();
