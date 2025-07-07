@@ -11,31 +11,46 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0.2.0-rc.0/dist/index.umd.js"></script>
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const iframeURL = window.location.href;
-  const token = urlParams.get('token');
-  const userId = urlParams.get('userId');
-  const companyId = urlParams.get('companyId');
-  const id = urlParams.get('id');
-
-  console.log("🌐 Iframe URL:", iframeURL);
-  console.log("🔐 Token:", token);
-  console.log("👤 User ID:", userId);
-  console.log("🏢 Company ID:", companyId);
-  console.log("🆔 Surface ID:", id);
-
   (async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const iframeURL = window.location.href;
+    const token = urlParams.get('token');
+    const userId = urlParams.get('userId');
+    const companyId = urlParams.get('companyId');
+    const id = urlParams.get('id');
+
+    console.log("🌐 Iframe URL:", iframeURL);
+    console.log("🔐 Token:", token);
+    console.log("👤 User ID:", userId);
+    console.log("🏢 Company ID:", companyId);
+    console.log("🆔 Surface ID:", id);
+
     const sdk = await new AppExtensionsSdk().initialize();
     console.log("✅ SDK initialized");
-    console.log(sdk)
+
+    try {
+      const response = await fetch("http://localhost:3001/api/persons", {
+        method: "GET"
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("👥 All persons from Pipedrive:", data);
+    } catch (error) {
+      console.error("❌ Error fetching persons:", error.message);
+    }
 
     sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
       const context = event?.data?.context;
       const callToNumber = context?.callToNumber;
       const personId = event?.data?.relatedIds?.personId;
-      if(context){
-        console.log(context)
+
+      if (context) {
+        console.log(context);
       }
 
       if (callToNumber) {
@@ -57,5 +72,3 @@
   })();
 </script>
 </html>
-
-
