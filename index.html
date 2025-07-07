@@ -28,6 +28,7 @@
   (async () => {
     const sdk = await new AppExtensionsSdk().initialize();
     console.log("✅ SDK initialized");
+    console.log(sdk)
 
     sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
       const context = event?.data?.context;
