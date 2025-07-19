@@ -29,6 +29,7 @@
 
     const sdk = await new AppExtensionsSdk().initialize();
     console.log("✅ SDK initialized");
+    await sdk.execute(Command.RESIZE, { height: 500 });
 
     try {
       const response = await fetch("http://localhost:3001/fetch-logs", {
