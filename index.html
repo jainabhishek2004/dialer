@@ -2865,6 +2865,7 @@ function showLoginDialog() {
       flex-direction:column;
       align-items: center;
       justify-content: center;
+      background-color: #222222;
       z-index: 10000;
     "></div>
   `);
@@ -2903,11 +2904,11 @@ function showLoginDialog() {
   
       <!-- The form -->
       <div class="login-modal UiSideField">
-        <h3 class="UiTextHeading" style="margin-top: 0; text-align: center;">
+        <h3 class="UiTextHeading" style="margin-top: 0; text-align: center; color: white !important;">
           Sign In
         </h3>
         <div style="display: flex; gap: 8px; margin: 16px 0;">
-          <select id="countryCode">
+          <select id="countryCode" style="color: white !important;">
             <option value="91" selected>+91</option>
             <option value="1">+1</option>
           </select>
@@ -2922,7 +2923,7 @@ function showLoginDialog() {
           type="password"
           id="passwordField"
           placeholder="Password"
-          style="width: 100%; margin-bottom: 16px;"
+          style="width: 100%; margin-bottom: 16px; color: white !important"
         />
         <div
           class="UiWindowButtonBar"
