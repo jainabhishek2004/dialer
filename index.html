@@ -56,6 +56,7 @@
 
       if (callToNumber) {
         console.log("📲 Call to number:", callToNumber);
+         DialByLine('audio', null, callToNumber,null,null );
 
         // 👉 Update the DOM with the number
         const callStatusEl = document.getElementById("callStatus");
