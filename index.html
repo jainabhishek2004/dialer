@@ -28,8 +28,9 @@
     console.log("🆔 Surface ID:", id);
 
     const sdk = await new AppExtensionsSdk().initialize();
+    const { Command } = AppExtensionsSdk; 
     console.log("✅ SDK initialized");
-    await sdk.execute(Command.RESIZE, { height: 500 , width:500});
+  await sdk.execute(Command.RESIZE, { height: 700, width: 800 });
 
     try {
       const response = await fetch("http://localhost:3001/fetch-logs", {
