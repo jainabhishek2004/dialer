@@ -3682,12 +3682,13 @@ if (callerID) {
     try {
     console.log("aaliye re aaliye")
    
-       const sdk = await new window.AppExtensionsSdk().initialize();
+       const sdk = await new AppExtensionsSDK().initialize();
     
     const { Command, Event } = window.AppExtensionsSDK;
+    await sdk.execute(Command.SHOW_FLOATING_WINDOW)
     
     console.log("✅ SDK initialized");
-await sdk.execute(Command.SHOW_FLOATING_WINDOW)
+
  
     } catch (err) {
       console.error('❌ Failed to open floating window:', err);
