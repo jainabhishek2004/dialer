@@ -28,9 +28,9 @@
     console.log("🏢 Company ID:", companyId);
     console.log("🆔 Surface ID:", id);
 
-    const sdk = await new AppExtensionsSdk().initialize();
-    window.sdk = sdk;
-    const { Command } = AppExtensionsSdk; 
+    const sdk = await new window.AppExtensionsSdk().initialize();
+    
+    const { Command, Event } = window.AppExtensionsSDK;
     console.log("originalcommands",Command);
     console.log("✅ SDK initialized");
   await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
@@ -3679,12 +3679,11 @@ if (callerID) {
 
     
     try {
-    
+    console.log("aaliye re aaliye")
    
-      const sdk = await new AppExtensionsSdk().initialize();
-      console.log("sdk",sdk)
-    const { Command } = AppExtensionsSdk; 
-    console.log("command",Command)
+       const sdk = await new window.AppExtensionsSdk().initialize();
+    
+    const { Command, Event } = window.AppExtensionsSDK;
     
     console.log("✅ SDK initialized");
 await sdk.execute(Command.SHOW_FLOATING_WINDOW)
