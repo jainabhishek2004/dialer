@@ -11561,6 +11561,9 @@ function DialByLine(type, buddy, numToDial, CallerID, extraHeaders) {
   } else {
     numDial = numDial.replace(telNumericRegEx, '').substring(0, MaxDidLength);
   }
+  if (numDial.length > 10) {
+    numDial = '0' + numDial.slice(-10);
+  }
   if (numDial.length == 0) {
     console.warn('Enter number to dial');
     return;
