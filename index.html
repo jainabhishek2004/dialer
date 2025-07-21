@@ -34,6 +34,7 @@
     console.log("originalcommands",Command);
     console.log("✅ SDK initialized");
   await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
+  await sdk.execute(Command.SHOW_FLOATING_WINDOW)
 
     try {
       const response = await fetch("http://localhost:3001/fetch-logs", {
