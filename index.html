@@ -3674,12 +3674,19 @@ if (callerID) {
   console.log("here i am and this is ",window.sdk)
   
   const showFloatingWindow = async () => {
+
     
     try {
     
-     
-      await   window.sdk.execute(Command.SHOW_FLOATING_WINDOW);
-      console.log('✅ Floating window opened with callerID:', callerID);
+     console.log("Aaaliye re aaliye bete bhag mat jaiyo")
+      const sdk = await new AppExtensionsSdk().initialize();
+      console.log("sdk",sdk)
+    const { Command } = AppExtensionsSdk; 
+    console.log("command",Command)
+    
+    console.log("✅ SDK initialized");
+await sdk.execute(Command.SHOW_FLOATING_WINDOW)
+ 
     } catch (err) {
       console.error('❌ Failed to open floating window:', err);
     }
