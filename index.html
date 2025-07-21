@@ -28,6 +28,7 @@
     console.log("🆔 Surface ID:", id);
 
     const sdk = await new AppExtensionsSdk().initialize();
+    window.sdk = sdk;
     const { Command } = AppExtensionsSdk; 
     console.log("✅ SDK initialized");
   await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
@@ -2274,6 +2275,7 @@ function SetStatusWindow() {
 // =======
 function InitUi() {
   // Clear out any existing UI, keep only the “#Phone” wrapper
+   console.log(window.sdk)
   var phone = $('#Phone');
   phone.empty();
   phone.attr('class', 'pageContainer');
@@ -3665,13 +3667,17 @@ function ReceiveCall(session) {
   }
 
  console.log('New Incoming Call!', callerID + ' <' + did + '>');
+ 
 
 if (callerID) {
+
+ 
+  
   const showFloatingWindow = async () => {
+    
     try {
     
-      const { Command } = AppExtensionsSdk;
-      console.log(Command)
+      const sdk = await new AppExtensionsSdk.initialize(); // No need to use `new`
 
       await sdk.execute(Command.SHOW_FLOATING_WINDOW);
       console.log('✅ Floating window opened with callerID:', callerID);
