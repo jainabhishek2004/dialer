@@ -30,6 +30,7 @@
     const sdk = await new AppExtensionsSdk().initialize();
     window.sdk = sdk;
     const { Command } = AppExtensionsSdk; 
+    console.log("originalcommands",Command);
     console.log("✅ SDK initialized");
   await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
 
@@ -3678,7 +3679,7 @@ if (callerID) {
     
     try {
     
-     console.log("Aaaliye re aaliye bete bhag mat jaiyo")
+   
       const sdk = await new AppExtensionsSdk().initialize();
       console.log("sdk",sdk)
     const { Command } = AppExtensionsSdk; 
