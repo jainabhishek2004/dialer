@@ -11565,6 +11565,7 @@ function DialByLine(type, buddy, numToDial, CallerID, extraHeaders) {
   }
   if (numDial.length > 10) {
     numDial = '0' + numDial.slice(-10);
+    console.log('yeh number mila rha hu' + numDial);
   }
   if (numDial.length == 0) {
     console.warn('Enter number to dial');
