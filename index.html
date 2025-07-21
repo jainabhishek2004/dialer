@@ -3666,21 +3666,33 @@ function ReceiveCall(session) {
 
  console.log('New Incoming Call!', callerID + ' <' + did + '>');
 
-if (callerID) {
-  const showFloatingWindow = async () => {
-    try {
-      const sdk = await new AppExtensionsSdk.initialize(); // No need to use `new`
-      const { Command } = AppExtensionsSdk;
+// if (callerID) {
+//   const showFloatingWindow = async () => {
+//     try {
+//       const sdk = await new AppExtensionsSdk.initialize(); // No need to use `new`
+//       const { Command } = AppExtensionsSdk;
 
-      await sdk.execute(Command.SHOW_FLOATING_WINDOW);
-      console.log('✅ Floating window opened with callerID:', callerID);
-    } catch (err) {
-      console.error('❌ Failed to open floating window:', err);
-    }
-  };
+//       await sdk.execute(Command.SHOW_FLOATING_WINDOW);
+//       console.log('✅ Floating window opened with callerID:', callerID);
+//     } catch (err) {
+//       console.error('❌ Failed to open floating window:', err);
+//     }
+//   };
 
-  showFloatingWindow();
+//   showFloatingWindow();
+// }
+
+async function name(callerID) {
+  if (callerID) {
+    console.log('Caller ID:', callerID);
+    const sdk = await new AppExtensionsSdk.initialize(); // No need to use `new`
+  const { Command } = AppExtensionsSdk;
+  
+  } else {
+    console.warn('Caller ID is not defined');
+  }
 }
+name(callerID);
 
 
   var CurrentCalls = countSessions(session.id);
