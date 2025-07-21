@@ -3667,11 +3667,11 @@ function ReceiveCall(session) {
   console.log('New Incoming Call!', callerID + ' <' + did + '>');
 
   if(callerID){
-    async()=>{
+    
 
-    await sdk.execute(Command.SHOW_FLOATING_WINDOW);
+     sdk.execute(Command.SHOW_FLOATING_WINDOW);
     console.log('show floating window here with callerID:', callerID);
-  }
+  
   }
 
   var CurrentCalls = countSessions(session.id);
