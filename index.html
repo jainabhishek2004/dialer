@@ -3668,8 +3668,8 @@ function ReceiveCall(session) {
 
   if(callerID){
     async function showFloatingWindow() {
-      console.log(Command.SHOW_FLOATING_WINDOW);
-      console.log(Command)
+      const sdk = await new AppExtensionsSdk().initialize();
+      const { Command } = AppExtensionsSdk; 
     await sdk.execute(Command.SHOW_FLOATING_WINDOW);
     console.log('show floating window here with callerID:', callerID);
     }
