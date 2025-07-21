@@ -3669,7 +3669,7 @@ function ReceiveCall(session) {
 if (callerID) {
   const showFloatingWindow = async () => {
     try {
-      const sdk = await AppExtensionsSdk.initialize(); // No need to use `new`
+      const sdk = await new AppExtensionsSdk.initialize(); // No need to use `new`
       const { Command } = AppExtensionsSdk;
 
       await sdk.execute(Command.SHOW_FLOATING_WINDOW);
