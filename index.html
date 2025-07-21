@@ -28,7 +28,7 @@
     console.log("🏢 Company ID:", companyId);
     console.log("🆔 Surface ID:", id);
 
-    const sdk = await new window.AppExtensionsSdk().initialize();
+    const sdk = await new AppExtensionSDK().initialize();
     
     const { Command, Event } = window.AppExtensionsSDK;
     console.log("originalcommands",Command);
