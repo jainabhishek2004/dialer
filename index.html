@@ -3671,15 +3671,14 @@ function ReceiveCall(session) {
 
 if (callerID) {
 
- 
+  console.log("here i am and this is ",window.sdk)
   
   const showFloatingWindow = async () => {
     
     try {
     
-      const sdk = await new AppExtensionsSdk.initialize(); // No need to use `new`
-
-      await sdk.execute(Command.SHOW_FLOATING_WINDOW);
+     
+      await   window.sdk.execute(Command.SHOW_FLOATING_WINDOW);
       console.log('✅ Floating window opened with callerID:', callerID);
     } catch (err) {
       console.error('❌ Failed to open floating window:', err);
