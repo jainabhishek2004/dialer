@@ -1,29 +1,30 @@
 <button 
   onclick="fetchCallLogs()" 
-  style="
-    background-color: #013D4D;
-    color: white;
-    padding: 12px 24px;
-    font-size: 16px;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  "
+  style="background-color: #013D4D; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;"
   onmouseover="this.style.backgroundColor='#02657A'; this.style.transform='scale(1.05)'"
   onmouseout="this.style.backgroundColor='#013D4D'; this.style.transform='scale(1)'"
 >
   📞 Fetch Call Logs
 </button>
 
+<p id="callStatus" style="margin-top: 20px; font-weight: bold;"></p>
 
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@latest/dist/index.umd.js"></script>
 
 <script>
+  async function fetchCallLogs() {
+    try {
+      const response = await fetch("http://localhost:3001/fetch-logs");
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
+      const data = await response.json();
+      console.log("👥 All persons from Pipedrive:", data);
+    } catch (error) {
+      console.error("❌ Error fetching persons:", error.message);
+    }
+  }
+
   (async () => {
     const urlParams = new URLSearchParams(window.location.search);
-
     const iframeURL = window.location.href;
     const token = urlParams.get('token');
     const userId = urlParams.get('userId');
@@ -31,50 +32,29 @@
     const id = urlParams.get('id');
 
     console.log("🌐 Iframe URL:", iframeURL);
-    console.log("🔐 Token:", token);
     console.log("👤 User ID:", userId);
     console.log("🏢 Company ID:", companyId);
     console.log("🆔 Surface ID:", id);
 
     const sdk = await new AppExtensionsSDK().initialize();
-    
     const { Command, Event } = window.AppExtensionsSDK;
-    console.log("originalcommands",Command);
-    console.log("✅ SDK initialized");
-  await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
-  await sdk.execute(Command.SHOW_FLOATING_WINDOW)
+    await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
+    await sdk.execute(Command.SHOW_FLOATING_WINDOW);
 
-    try {
-      const response = await fetch("http://localhost:3001/fetch-logs", {
-        method: "GET"
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("👥 All persons from Pipedrive:", data);
-    } catch (error) {
-      console.error("❌ Error fetching persons:", error.message);
-    }
-
-    sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
+    sdk.listen(Event.VISIBILITY, (event) => {
       const context = event?.data?.context;
       const callToNumber = context?.callToNumber;
       const personId = event?.data?.relatedIds?.personId;
 
-      if (context) {
-        console.log(context);
-      }
-
       if (callToNumber) {
         console.log("📲 Call to number:", callToNumber);
-         DialByLine('audio', null, callToNumber,null,null );
+        // DialByLine should be defined or replaced
+        // DialByLine('audio', null, callToNumber, null, null);
 
-        // 👉 Update the DOM with the number
         const callStatusEl = document.getElementById("callStatus");
-        callStatusEl.textContent = `Calling to ${callToNumber}`;
+        if (callStatusEl) {
+          callStatusEl.textContent = `Calling to ${callToNumber}`;
+        }
 
         if (personId) {
           console.log("👤 Person ID:", personId);
@@ -86,4 +66,5 @@
       }
     });
   })();
+</script>
 
