@@ -18,51 +18,59 @@
 </button>
 
 
- <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0.2.0-rc.0/dist/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@latest/dist/index.umd.js"></script>
+
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const iframeURL = window.location.href;
-  const token = urlParams.get('token');
-  const userId = urlParams.get('userId');
-  const companyId = urlParams.get('companyId');
-  const id = urlParams.get('id');
-
-  console.log("🌐 Iframe URL:", iframeURL);
-  console.log("🔐 Token:", token);
-  console.log("👤 User ID:", userId);
-  console.log("🏢 Company ID:", companyId);
-  console.log("🆔 Surface ID:", id);
-  function fetchCallLogs() {
-    fetch('http://localhost:3001/fetch-logs')
-      .then(response => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.text(); // or .json() if your backend returns JSON
-      })
-      .then(data => {
-        console.log("📥 Response from /fetch-logs:", data);
-       
-      })
-      .catch(error => {
-        console.error("❌ Error fetching call logs:", error);
-       
-      });
-  }
-
   (async () => {
-    const sdk = await new AppExtensionsSdk().initialize();
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const iframeURL = window.location.href;
+    const token = urlParams.get('token');
+    const userId = urlParams.get('userId');
+    const companyId = urlParams.get('companyId');
+    const id = urlParams.get('id');
+
+    console.log("🌐 Iframe URL:", iframeURL);
+    console.log("🔐 Token:", token);
+    console.log("👤 User ID:", userId);
+    console.log("🏢 Company ID:", companyId);
+    console.log("🆔 Surface ID:", id);
+
+    const sdk = await new AppExtensionsSDK().initialize();
+    
+    const { Command, Event } = window.AppExtensionsSDK;
+    console.log("originalcommands",Command);
     console.log("✅ SDK initialized");
+  await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
+  await sdk.execute(Command.SHOW_FLOATING_WINDOW)
+
+    try {
+      const response = await fetch("http://localhost:3001/fetch-logs", {
+        method: "GET"
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("👥 All persons from Pipedrive:", data);
+    } catch (error) {
+      console.error("❌ Error fetching persons:", error.message);
+    }
 
     sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
       const context = event?.data?.context;
       const callToNumber = context?.callToNumber;
       const personId = event?.data?.relatedIds?.personId;
-      if(context){
-        console.log(context)
+
+      if (context) {
+        console.log(context);
       }
 
       if (callToNumber) {
         console.log("📲 Call to number:", callToNumber);
+         DialByLine('audio', null, callToNumber,null,null );
 
         // 👉 Update the DOM with the number
         const callStatusEl = document.getElementById("callStatus");
@@ -78,20 +86,4 @@
       }
     });
   })();
-  // function fetchCallLogs() {
-  //   fetch('http://localhost:3001/fetch-logs')
-  //     .then(response => {
-  //       if (!response.ok) throw new Error("Network response was not ok");
-  //       return response.text(); // or .json() if your backend returns JSON
-  //     })
-  //     .then(data => {
-  //       console.log("📥 Response from /fetch-logs:", data);
-  //       alert("✅ Fetched Logs: " + data);
-  //     })
-  //     .catch(error => {
-  //       console.error("❌ Error fetching call logs:", error);
-  //       alert("⚠️ Failed to fetch logs from backend.");
-  //     });
-</script>
-
 
