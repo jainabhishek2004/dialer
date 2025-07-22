@@ -51,7 +51,7 @@
       console.error("❌ Error fetching persons:", error.message);
     }
 
-    sdk.listen(AppExtensionsSdk.Event.VISIBILITY, (event) => {
+    sdk.listen(AppExtensionsSDK.Event.VISIBILITY, (event) => {
       const context = event?.data?.context;
       const callToNumber = context?.callToNumber;
       const personId = event?.data?.relatedIds?.personId;
