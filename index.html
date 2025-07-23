@@ -13,6 +13,23 @@
 <script src="https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@latest/dist/index.umd.js"></script>
 
 <script>
+
+   async function fetchCallLogs() {
+    console.log("hello logs")
+    try {
+      const response = await fetch("http://localhost:3001/fetch-logs");
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
+      const data = await response.json();
+      console.log("👥 All persons from Pipedrive:", data);
+    } catch (error) {
+      console.error("❌ Error fetching persons:", error.message);
+    }
+  }
+
+  fetchCallLogs();
+
+ 
+  setInterval(fetchCallLogs, 30 * 60 * 1000); 
   (async () => {
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -36,20 +53,7 @@
   await sdk.execute(Command.RESIZE, { height: 580, width: 400 });
   await sdk.execute(Command.SHOW_FLOATING_WINDOW)
 
-    try {
-      const response = await fetch("http://localhost:3001/fetch-logs", {
-        method: "GET"
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("👥 All persons from Pipedrive:", data);
-    } catch (error) {
-      console.error("❌ Error fetching persons:", error.message);
-    }
+   
 
     sdk.listen(AppExtensionsSDK.Event.VISIBILITY, (event) => {
       const context = event?.data?.context;
